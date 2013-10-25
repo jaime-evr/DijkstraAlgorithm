@@ -1,12 +1,12 @@
 class Node
-  attr_accessor :current, :visited, :neighbors, :value
+  attr_accessor :value, :initial, :current, :visited, :neighbors
 
   def initialize(value)
     @value =  value
+    @initial = false
+    @current = false
     @visited = false
     @neighbors = {}
-    @current = false
-    @initial = false
   end
 end
 
@@ -27,8 +27,10 @@ class Graph
     end
   end
 
-  def set_initial(node)
-    node.initial = true
+  def set_initial
+    @graph[@start].initial = true
+    @graph[@start].value = 0
+    @graph[@start].current = true
   end
 
   private
@@ -38,9 +40,24 @@ class Graph
   end
 end
 
+class Dijkstra
+  attr_accessor :graph, :unvisited_set
+
+  def initialize(graph)
+    @graph = graph
+    @unvisited_set = []
+  end
+
+  def get_unvisited_set
+    @graph.graph.each do |g|
+      @unvisited_set << g if g.visited == false
+    end
+  end
+end
+
 g = Graph.new 5, 1, 5
 g.set_values
+g.set_initial
 
-##class Dijkstra
-##  def initialize(graph)
-##end
+d = Dijkstra.new (g)
+#d.get_unvisited_set
