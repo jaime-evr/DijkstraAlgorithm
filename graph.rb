@@ -1,14 +1,5 @@
-class Node
-  attr_accessor :value, :initial, :current, :visited, :neighbors
-
-  def initialize(value)
-    @value =  value
-    @initial = false
-    @current = false
-    @visited = false
-    @neighbors = []
-  end
-end
+require './node'
+require './dijkstra'
 
 class Graph
   attr_accessor :nodes, :total, :start, :finish
@@ -24,7 +15,6 @@ class Graph
     @total.times do |node|
       value = set_node_value(node)
       @nodes[node] = Node.new value
-      @nodes[node].neighbors = 
     end
   end
 
@@ -45,22 +35,6 @@ class Graph
     puts "neighbors of node #{node+1}"
     neighbors = gets.chomp
     neighbors = neighbors.slplit(",")
-  end
-end
-
-class Dijkstra
-  attr_accessor :graph, :unvisited_set
-
-  def initialize(graph)
-    @graph = graph
-    @unvisited_set = []
-  end
-
-  def get_unvisited_set
-    @graph.nodes.each do |g|
-      puts @graph.nodes[g]
-      @unvisited_set << g if g.visited == false
-    end
   end
 end
 
