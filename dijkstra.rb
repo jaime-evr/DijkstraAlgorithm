@@ -3,13 +3,13 @@ class Dijkstra
 
   def initialize(graph)
     @graph = graph
-    @unvisited_set = []
+    @unvisited_set = {}
   end
 
   def get_unvisited_set
-    @graph.nodes.each do |g|
-      puts @graph.nodes[g]
-      @unvisited_set << g if g.visited == false
+    @graph.nodes.each do |index, node|
+      @unvisited_set[index] = node unless node.visited == true
     end
+    @unvisited_set
   end
 end

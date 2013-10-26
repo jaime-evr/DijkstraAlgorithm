@@ -11,10 +11,9 @@ class Graph
     @finish = finish
   end
 
-  def set_values
+  def set_nodes
     @total.times do |node|
-      value = set_node_value(node)
-      @nodes[node] = Node.new value
+      @nodes[node] = Node.new -1
     end
   end
 
@@ -22,25 +21,36 @@ class Graph
     @nodes[@start].initial = true
     @nodes[@start].value = 0
     @nodes[@start].current = true
+    @nodes[@start].visited = true
   end
 
-  private
-  def set_node_value(node)
-    puts "Value for node #{node+1}"
-    gets.chomp
-  end
-
-  private
-  def set_node_neighbors(node)
-    puts "neighbors of node #{node+1}"
-    neighbors = gets.chomp
-    neighbors = neighbors.slplit(",")
+  def set_node_neighbors(index, neighborhood)
+    neighbors = neighborhood[index].map { |n| n[:node] }
+    @nodes[index].neighbors = neighbors
   end
 end
 
-g = Graph.new 5, 1, 5
-g.set_values
+g = Graph.new 6, 0, 5
+
+neighborhood = [
+  [{node: 2, val: 7}, {node: 3, val: 9}, {node: 6, val: 14}],
+  [{node: 1, val: 7}, {node: 3, val: 10}, {node: 4, val: 15}],
+  [{node: 1, val: 9}, {node: 2, val: 10}, {node: 4, val: 11}, {node: 6, val: 2}],
+  [{node: 2, val: 15}, {node: 3, val: 11},{node: 5, val: 6}],
+  [{node: 4, val: 6}, {node: 6, val: 9}],
+  [{node: 5, val: 9}, {node: 3, val: 2},{node: 1, val: 14}]
+]
+
+g.set_nodes
 g.set_initial
 
+g.total.times do |index|
+  g.set_node_neighbors(index, neighborhood)
+end
+
+puts g.nodes
+
 d = Dijkstra.new(g)
-d.get_unvisited_set
+unvisited = d.get_unvisited_set
+
+puts g

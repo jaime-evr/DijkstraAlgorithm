@@ -6,6 +6,5 @@ class Node
     @initial = false
     @current = false
     @visited = false
-    @neighbors = []
   end
 end
