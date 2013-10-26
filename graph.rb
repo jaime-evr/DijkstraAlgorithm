@@ -25,7 +25,7 @@ class Graph
   end
 
   def set_node_neighbors(index, neighborhood)
-    neighbors = neighborhood[index].map { |n| n[:node] }
+    neighbors = neighborhood[index]
     @nodes[index].neighbors = neighbors
   end
 end
