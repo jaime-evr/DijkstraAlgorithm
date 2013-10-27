@@ -1,3 +1,4 @@
+require 'pry'
 require './graph'
 require './node'
 require './dijkstra'
@@ -25,4 +26,6 @@ puts g.nodes
 d = Dijkstra.new(g)
 unvisited = d.get_unvisited_set
 
-puts g
+current = d.get_current_node
+
+puts current

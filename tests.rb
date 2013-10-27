@@ -1,3 +1,4 @@
+require 'pry'
 require './graph'
 require './node'
 require './dijkstra'
@@ -5,6 +6,8 @@ require './dijkstra'
 describe Dijkstra do
   before do
     @g = Graph.new 6, 0, 5
+    @g.set_nodes
+    @g.set_initial
     @d = Dijkstra.new @g
   end
 
@@ -14,6 +17,11 @@ describe Dijkstra do
 
   it 'should return unvisited set' do
     @d.get_unvisited_set.should_not be nil
+  end
+
+  it 'should get the current node' do
+    node = @d.get_current_node
+    node.current.should be true
   end
 end
 
