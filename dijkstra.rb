@@ -17,4 +17,9 @@ class Dijkstra
   def get_current_node
     @graph.nodes.each { |index, n| return n if n.current == true }
   end
+
+  def get_shortest_path
+    current = get_current_node
+    puts current.neighbors
+  end
 end

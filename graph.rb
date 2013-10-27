@@ -17,8 +17,7 @@ class Graph
     end
   end
 
-  def set_initial
-    @nodes[@start].initial = true
+  def set_current
     @nodes[@start].value = 0
     @nodes[@start].current = true
     @nodes[@start].visited = true
