@@ -5,9 +5,9 @@ require './dijkstra'
 
 describe Dijkstra do
   neighborhood = [
-    [{node: 1, cost: 7}, {node: 2, cost: 9}, {node: 4, cost: 14}],
+    [{node: 1, cost: 7}, {node: 2, cost: 9}, {node: 5, cost: 14}],
     [{node: 0, cost: 7}, {node: 2, cost: 10}, {node: 3, cost: 15}],
-    [{node: 0, cost: 9}, {node: 1, cost: 10}, {node: 3, cost: 11}, {node: 6, cost: 2}],
+    [{node: 0, cost: 9}, {node: 1, cost: 10}, {node: 3, cost: 11}, {node: 5, cost: 2}],
     [{node: 1, cost: 15}, {node: 2, cost: 11},{node: 4, cost: 6}],
     [{node: 3, cost: 6}, {node: 5, cost: 9}],
     [{node: 4, cost: 9}, {node: 2, cost: 2},{node: 0, cost: 14}]
@@ -42,9 +42,9 @@ end
 describe Graph do
   let(:neighborhood) do
     [
-      [{node: 1, cost: 7}, {node: 2, cost: 9}, {node: 4, cost: 14}],
+      [{node: 1, cost: 7}, {node: 2, cost: 9}, {node: 5, cost: 14}],
       [{node: 0, cost: 7}, {node: 2, cost: 10}, {node: 3, cost: 15}],
-      [{node: 0, cost: 9}, {node: 1, cost: 10}, {node: 3, cost: 11}, {node: 6, cost: 2}],
+      [{node: 0, cost: 9}, {node: 1, cost: 10}, {node: 3, cost: 11}, {node: 5, cost: 2}],
       [{node: 1, cost: 15}, {node: 2, cost: 11},{node: 4, cost: 6}],
       [{node: 3, cost: 6}, {node: 5, cost: 9}],
       [{node: 4, cost: 9}, {node: 2, cost: 2},{node: 0, cost: 14}]
@@ -64,13 +64,13 @@ describe Graph do
   end
 
   it 'should set the initial node' do
-    @g.nodes[0].value.should eq 0
+    @g.nodes[0].value.should eq 9999
     @g.nodes[0].current.should be true
     @g.nodes[0].visited.should be true
   end
 
   it 'should set node neighbors' do
-    @g.nodes[0].neighbors.should eq [{:node=>1, :cost=>7}, {:node=>2, :cost=>9}, {:node=>4, :cost=>14}]
+    @g.nodes[0].neighbors.should eq [{:node=>1, :cost=>7}, {:node=>2, :cost=>9}, {:node=>5, :cost=>14}]
   end
 end
 
