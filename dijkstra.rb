@@ -5,13 +5,18 @@ class Dijkstra
     @total_value = 0
     @graph = graph
     @unvisited_set = {}
+
+    @graph.nodes[@graph.start].value = 0
   end
 
-  def unvisited_set
+  def get_unvisited_set
     @graph.nodes.each do |index, node|
-      @unvisited_set[index] = node unless node.visited == true
+      if node.visited == true
+        @unvisited_set.delete(index)
+      else
+        @unvisited_set[index] = node unless node.visited == true
+      end
     end
-    @unvisited_set
   end
 
   def current_node
@@ -19,16 +24,40 @@ class Dijkstra
   end
 
   def shortest_path
-    evaluate_node(current_node) 
-  end
-
-  def evaluate_node(node)
-    node.neighbors.each do |neighbor|
-      value = neighbor[:cost] + @total_value
-      if value < @graph.nodes[neighbor[:node]].value do
-        @graph.nodes[neighbor[:node]].value = value
+    @graph.total.times do |index|
+      get_unvisited_set
+      evaluate_neighbors(current_node)
+      if finished?
+        return @total_value 
       end
     end
   end
 
+  private
+  def evaluate_neighbors(node)
+    best_cost = 9999
+    next_node = nil
+
+    node.neighbors.each do |neighbor|
+      if @unvisited_set[neighbor[:node]]
+        if neighbor[:cost] < best_cost
+          next_node = neighbor[:node] 
+          best_cost = neighbor[:cost]
+        end
+
+        value = neighbor[:cost] + @total_value
+        if value < @graph.nodes[neighbor[:node]].value
+          @graph.nodes[neighbor[:node]].value = value
+        end
+      end
+    end
+
+    @total_value = @graph.nodes[next_node].value
+    node.current = false
+    @graph.set_current(next_node)
+  end
+
+  def finished?
+    @graph.nodes[@graph.finish-1] == current_node
+  end
 end
