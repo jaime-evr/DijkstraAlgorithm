@@ -20,7 +20,6 @@ class Dijkstra
 
   def shortest_path
     evaluate_node(current_node) 
-    binding.pry
   end
 
   def evaluate_node(node)
@@ -31,5 +30,5 @@ class Dijkstra
       end
     end
   end
-  
+
 end
