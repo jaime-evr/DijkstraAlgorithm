@@ -18,7 +18,6 @@ class Graph
   end
 
   def set_current(node)
-    @nodes[node].value = 0
     @nodes[node].current = true
     @nodes[node].visited = true
   end
