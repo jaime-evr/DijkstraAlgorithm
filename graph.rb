@@ -1,6 +1,3 @@
-require './node'
-require './dijkstra'
-
 class Graph
   attr_accessor :nodes, :total, :start, :finish
 
@@ -9,22 +6,24 @@ class Graph
     @total = total
     @start = start
     @finish = finish
+
+    set_nodes
+    set_current(start)
   end
 
   def set_nodes
     @total.times do |node|
-      @nodes[node] = Node.new -1
+      @nodes[node] = Node.new 9999
     end
   end
 
-  def set_current
-    @nodes[@start].value = 0
-    @nodes[@start].current = true
-    @nodes[@start].visited = true
+  def set_current(node)
+    @nodes[node].value = 0
+    @nodes[node].current = true
+    @nodes[node].visited = true
   end
 
   def set_node_neighbors(index, neighborhood)
-    neighbors = neighborhood[index]
-    @nodes[index].neighbors = neighbors
+    @nodes[index].neighbors = neighborhood[index]
   end
 end
