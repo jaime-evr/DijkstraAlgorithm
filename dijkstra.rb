@@ -1,63 +1,62 @@
 class Dijkstra
-  attr_accessor :graph, :unvisited_set, :total_value
+  attr_accessor :graph, :total_value
 
   def initialize(graph)
     @total_value = 0
     @graph = graph
-    @unvisited_set = {}
-
-    @graph.nodes[@graph.start].value = 0
   end
 
-  def get_unvisited_set
-    @graph.nodes.each do |index, node|
-      if node.visited == true
-        @unvisited_set.delete(index)
-      else
-        @unvisited_set[index] = node unless node.visited == true
-      end
-    end
+  def unvisited_set
+    @graph.nodes.reject { |_, node| node.visited }
   end
 
   def current_node
-    @graph.nodes.each { |index, n| return n if n.current == true }
+    @graph.nodes.select { |_, node| node.current == true }
   end
 
   def shortest_path
-    @graph.total.times do |index|
-      get_unvisited_set
+    loop do
+      print "-> #{current_node.keys.first} "
+      return current_node.values.first.value if finished?
       evaluate_neighbors(current_node)
-      if finished?
-        return @total_value 
-      end
     end
   end
 
   private
-  def evaluate_neighbors(node)
-    best_cost = 9999
-    next_node = nil
 
+  def calculate_neighbors_distance(node)
     node.neighbors.each do |neighbor|
-      if @unvisited_set[neighbor[:node]]
-        if neighbor[:cost] < best_cost
-          next_node = neighbor[:node] 
-          best_cost = neighbor[:cost]
-        end
+      next unless unvisited_set[neighbor[:node]]
 
-        value = neighbor[:cost] + @total_value
-        if value < @graph.nodes[neighbor[:node]].value
-          @graph.nodes[neighbor[:node]].value = value
-        end
+      cost = neighbor[:cost]
+      neighbor_node = graph.nodes[neighbor[:node]]
+
+      if node.value + cost < neighbor_node.value
+        neighbor_node.value = cost + node.value
       end
     end
+  end
 
-    @total_value = @graph.nodes[next_node].value
+  def shortest_neighbor(node)
+    node.neighbors.filter { |neighbor| unvisited_set[neighbor[:node]] }
+      .min_by { |neighbor| neighbor[:cost] }
+  end
+
+  def evaluate_neighbors(node_hash)
+    node = node_hash.values.first
+
+
+    calculate_neighbors_distance(node)
+    next_node_index = shortest_neighbor(node)[:node]
+    next_node = graph.nodes[next_node_index]
+
     node.current = false
-    @graph.set_current(next_node)
+    node.visited = true
+    next_node.current = true
+    @total_value = next_node.value
   end
 
   def finished?
-    @graph.nodes[@graph.finish-1] == current_node
+    @graph.nodes[@graph.finish] == current_node.values.first
   end
 end

@@ -21,7 +21,7 @@ describe Dijkstra do
     @d = Dijkstra.new @g
   end
 
-  it 'should have a graph' do  
+  it 'should have a graph' do
     @d.graph.should_not be nil
   end
 

@@ -3,9 +3,7 @@ require './graph'
 require './node'
 require './dijkstra'
 
-g = Graph.new 6, 0, 5
-
-neighborhood = [
+graph_data = [
   [{node: 1, cost: 7}, {node: 2, cost: 9}, {node: 5, cost: 14}],
   [{node: 0, cost: 7}, {node: 2, cost: 10}, {node: 3, cost: 15}],
   [{node: 0, cost: 9}, {node: 1, cost: 10}, {node: 3, cost: 11}, {node: 5, cost: 2}],
@@ -14,15 +12,10 @@ neighborhood = [
   [{node: 4, cost: 9}, {node: 2, cost: 2},{node: 0, cost: 14}]
 ]
 
-g.total.times do |index|
-  g.set_node_neighbors(index, neighborhood)
-end
+graph = Graph.new(0, 4, graph_data)
 
-puts g.nodes
+puts graph.nodes
 
-d = Dijkstra.new(g)
-unvisited = d.unvisited_set
+dijkstra = Dijkstra.new(graph)
 
-current = d.current_node
-
-puts "the minimum value is #{d.shortest_path}"
+puts "\nthe minimum value is #{dijkstra.shortest_path}"

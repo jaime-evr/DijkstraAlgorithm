@@ -1,28 +1,27 @@
 class Graph
-  attr_accessor :nodes, :total, :start, :finish
+  attr_accessor :nodes, :start, :finish
 
-  def initialize(total, start, finish)
+  def initialize(start, finish, graph)
     @nodes = {}
-    @total = total
     @start = start
     @finish = finish
 
-    set_nodes
+    build_graph(graph)
+    nodes[start].value = 0
     set_current(start)
   end
 
-  def set_nodes
-    @total.times do |node|
-      @nodes[node] = Node.new 9999
+  def build_graph(graph)
+    graph.each_with_index do |neighbors, index|
+      nodes[index] = Node.new(neighbors)
     end
   end
 
   def set_current(node)
-    @nodes[node].current = true
-    @nodes[node].visited = true
+    nodes[node].current = true
   end
 
-  def set_node_neighbors(index, neighborhood)
-    @nodes[index].neighbors = neighborhood[index]
+  def set_visited(node)
+    nodes[node].visited = true
   end
 end
